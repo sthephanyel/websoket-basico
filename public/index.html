@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.IO Exaple</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+    <button id="join">JOIN WEBSOCKET</button>
+    <button id="send-message">MESSAGE</button>
+    <script type="text/javascript">
+        let socket;
+        // cria uma conexao com sockect.io
+        document.getElementById('join').addEventListener('click', function(){
+            if(!socket){
+                socket = new io('http://localhost:3333')
+            }
+            // sempre que receber um 'received', pega a mensagem e imprime
+            socket.on('received', (msgreceived)=>{
+                console.log(msgreceived)
+            })
+        })
+        // identifica o click e envia uma mensagem
+        document.getElementById('send-message').addEventListener('click', function(){
+            if(!socket){
+                return;
+            }
+            // envia a mensagem para o socket
+            socket.emit('message', `Hello Word ${socket.id} ${Math.random()}`)
+        })
+    </script>
+</body>
+</html>
